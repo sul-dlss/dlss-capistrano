@@ -1,0 +1,49 @@
+= lyberteam-capistrano-devel
+
+This gem contains classes that deal with the Capistrano deployment of SUL DLSS Ruby projects.
+
+== Capfile assumptions
+
+This gem makes the following assumptions about your Ruby project (lyberteam-capistrano-devel >= 3.0)
+
+- You are using Capistrano 3+
+- You use git for source control
+- The server you deploy to uses rvm, it is installed systemwide, and is the default system ruby
+- You do not have an .rvmrc checked into git (should be in your .gitignore)
+- You will not use rvm gemsets on the server you deploy to
+- Bundler will install specified gems into {your_project_home}/shared/bundle directory
+- You have a VERSION file that contains an x.y.z version number. This will get passed to the DLSS release board
+- Will deploy from the master branch, unless you set :branch to another branch or tag
+
+== Releases
+* *0.1.0* Initial release, with Dlss::Release rake task pulled in from the lyber-core gem project.
+* *0.2.0* Allow user to continue even if the tagged version already exists (for use with git-flow,
+               which tags versions before release).
+* *0.2.1* Fixed tagging bug in v0.2.0
+* *0.3.0* Read version organically from Gem::Specification instead of by grepping the .gemspec file
+* *0.4.0* Add LyberTeam CA-signed certificate generator
+* *0.4.1* Changed SMTP port from 25 to 587 so send_release_announcement will work from off campus
+* *0.5.0* Added capistrano recipes for app deployment
+* *0.5.1* Split generic DLSS capistrano tasks from the robot-related ones
+* *0.5.2* Tweaked capistrano generic and robot-related tasks
+* *0.5.3* Locking capistrano to 2.9.0 in gemspec to fix bug in deploy:setup shared directory setup
+* *0.6.0* Removing capistrano version constraint; requiring "shared" directory to use the newer
+               flat directory layout
+* *0.6.1* deploy:finalize_update task in capistrano/robots creates links to flat "shared" directory
+* *0.6.2* dlss:update_crontab runs after deploy:create_symlink
+* *0.7.0* Client support for the DLSS Release Board including
+               a command-line client (bin/post_dlss_release) as well as baked-in support within the gem
+               release task (rake dlss_release) and the capistrano deployment library (dlss:log_release)
+* *0.7.1* Remove leftover send_release_announcement call from rake task
+* *0.7.2* Update dlss:log_release capistrano task to parse the application version more robustly
+* *0.7.3* [unreleased]
+* *0.7.4* Update capistrano dependency and add rvm-capistrano
+* *0.8.0* Capistrano related classes moved to lyberteam-capistrano-devel gem
+* *0.9.0* dlss:log_release will automatically send release notification if a VERSION file exists in the root of project
+* *1.0.0* Removal of all rvm and gemset related task. Not backwards compatible with older scripts
+* *1.2.0* Ruby 1.9.x users must include net-ssh-krb in their Gemfile
+* *3.0.0.pre1* Support Capistrano 3.x
+
+== Copyright
+
+Copyright (c) 2014 Stanford University Library. See LICENSE for details.
