@@ -12,8 +12,4 @@ rescue Bundler::BundlerError => e
   exit e.status_code
 end
 
-# To release the gem to the DLSS gemserver, run 'rake dlss_release'
-require 'dlss/rake/dlss_release'
-Dlss::Release.new
-
-
+require "bundler/gem_tasks"
