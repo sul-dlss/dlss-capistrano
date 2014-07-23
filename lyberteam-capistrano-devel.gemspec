@@ -22,8 +22,6 @@ Gem::Specification.new do |s|
   s.add_dependency "capistrano-holepicker"
   s.add_dependency "capistrano-one_time_key"
 
-  s.add_development_dependency 'lyberteam-gems-devel', ">= 1.0"
-
   s.files         = `git ls-files`.split($/)
   s.executables   = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
   s.test_files    = s.files.grep(%r{^(test|spec|features)/})
