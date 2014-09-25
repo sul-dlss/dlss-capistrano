@@ -43,6 +43,7 @@ This gem makes the following assumptions about your Ruby project (lyberteam-capi
 * *1.0.0* Removal of all rvm and gemset related task. Not backwards compatible with older scripts
 * *1.2.0* Ruby 1.9.x users must include net-ssh-krb in their Gemfile
 * *3.0.0.pre1* Support Capistrano 3.x
+* *3.1.0.pre1* Replace dependency on deprecated holepicker with bundler-audit
 
 == Copyright
 
