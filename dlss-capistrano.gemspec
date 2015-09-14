@@ -3,7 +3,7 @@ lib = File.expand_path('../lib/', __FILE__)
 $:.unshift lib unless $:.include?(lib)
 
 Gem::Specification.new do |s|
-  s.name        = "lyberteam-capistrano-devel"
+  s.name        = "dlss-capistrano"
   s.version     = "3.2.0"
 
   s.platform    = Gem::Platform::RUBY
