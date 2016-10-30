@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.email       = ["cabeer@stanford.edu"]
   s.summary     = "Capistrano recipies for use in SUL/DLSS projects"
   s.description = "Capistrano recipies  to assist with the development, testing, and release of SUL/DLSS Ruby project"
+  s.license     = "Apache-2.0"
 
   s.required_rubygems_version = ">= 1.3.6"
   s.required_ruby_version = '>= 1.9.3'
