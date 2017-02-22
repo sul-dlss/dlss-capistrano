@@ -12,7 +12,6 @@ This gem makes the following assumptions about your Ruby project
 - You do not have an .rvmrc checked into git (should be in your .gitignore)
 - You will not use rvm gemsets on the server you deploy to
 - Bundler will install specified gems into {your_project_home}/shared/bundle directory
-- You have a VERSION file that contains an x.y.z version number. This will get passed to the DLSS release board
 - Will deploy from the master branch, unless you set :branch to another branch or tag
 
 
