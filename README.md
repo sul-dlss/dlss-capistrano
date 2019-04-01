@@ -1,5 +1,7 @@
 # dlss-capistrano
 
+[![Gem Version](https://badge.fury.io/rb/dlss-capistrano.svg)](https://badge.fury.io/rb/dlss-capistrano)
+
 This gem contains classes that deal with the Capistrano deployment of SUL DLSS Ruby projects.
 
 ## Capfile assumptions
