@@ -7,10 +7,10 @@ Gem::Specification.new do |s|
   s.version     = "3.4.1"
 
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Chris Beer","Willy Mene"]
+  s.authors     = ["Chris Beer", "Willy Mene"]
   s.email       = ["cabeer@stanford.edu"]
-  s.summary     = "Capistrano recipies for use in SUL/DLSS projects"
-  s.description = "Capistrano recipies  to assist with the development, testing, and release of SUL/DLSS Ruby project"
+  s.summary     = "Capistrano recipes for use in SUL/DLSS projects"
+  s.description = "Capistrano recipes to assist with deployment of SUL/DLSS Ruby projects"
   s.license     = "Apache-2.0"
 
   s.required_rubygems_version = ">= 1.3.6"
@@ -19,7 +19,6 @@ Gem::Specification.new do |s|
   # All dependencies are runtime dependencies, since this gem's "runtime" is
   # the dependent gem's development-time.
   s.add_dependency "capistrano", "~> 3.0"
-  s.add_dependency "capistrano-bundle_audit", ">= 0.1.0"
   s.add_dependency "capistrano-one_time_key"
   s.add_dependency "capistrano-shared_configs"
 
