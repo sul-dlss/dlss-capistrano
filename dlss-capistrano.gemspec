@@ -4,13 +4,13 @@ $:.unshift lib unless $:.include?(lib)
 
 Gem::Specification.new do |s|
   s.name        = "dlss-capistrano"
-  s.version     = "3.4.1"
+  s.version     = "3.6.0"
 
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Chris Beer","Willy Mene"]
-  s.email       = ["cabeer@stanford.edu"]
-  s.summary     = "Capistrano recipies for use in SUL/DLSS projects"
-  s.description = "Capistrano recipies  to assist with the development, testing, and release of SUL/DLSS Ruby project"
+  s.authors     = ["Chris Beer", 'Mike Giarlo']
+  s.email       = ["cabeer@stanford.edu", 'mjgiarlo@stanford.edu']
+  s.summary     = "Capistrano recipes for use in SUL/DLSS projects"
+  s.description = "Capistrano recipes to assist with development, testing, & deployment of SUL/DLSS Ruby projects"
   s.license     = "Apache-2.0"
 
   s.required_rubygems_version = ">= 1.3.6"
