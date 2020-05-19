@@ -20,6 +20,17 @@ set :bundler2_config_path, '/tmp' # set to '#{shared_path}/bundle' by default
 
 Note that only `bundler2_config_use_hook` **must** be set in order to use this functionality.
 
+### Sidekiq symlink
+
+Every time the version of Sidekiq or Ruby changes, a corresponding Puppet PR must be made in order to update the XSendFilePath that allows Apache to access the bundled Sidekiq gem's assets. dlss-capistrano provides a hook to create a symlink to the bundled Sidekiq to avoid having to do this:
+
+```ruby
+set :bundled_sidekiq_symlink, true # false is the default value
+set :bundled_sidekiq_roles, [:app] # this is the default value
+```
+
+Set this in `config/deploy.rb` to automate the symlink creation, and then use `XSendFilePath /path/to/my/app/shared/bundled_sidekiq/web/assets` in Apache configuration (in Puppet).
+
 ### SSH
 
 `cap ENV ssh` establishes an SSH connection to the host running in `ENV` environment, and changes into the current deployment directory
