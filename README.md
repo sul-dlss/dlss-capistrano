@@ -35,6 +35,10 @@ Set this in `config/deploy.rb` to automate the symlink creation, and then use `X
 
 `cap ENV ssh` establishes an SSH connection to the host running in `ENV` environment, and changes into the current deployment directory
 
+### Display Revision (and branches)
+
+`cap ENV deployed_branch` displays the currently deployed revision (commit ID) and any branches containing the revision for each server in `ENV`.
+
 ### Sidekiq via systemd
 
 `cap ENV sidekiq_systemd:{quiet,stop,start,restart}`: quiets, stops, starts, restarts Sidekiq via systemd.
