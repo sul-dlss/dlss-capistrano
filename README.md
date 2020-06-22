@@ -35,6 +35,10 @@ Set this in `config/deploy.rb` to automate the symlink creation, and then use `X
 
 `cap ENV ssh` establishes an SSH connection to the host running in `ENV` environment, and changes into the current deployment directory
 
+### SSH Connection Checking
+
+`cap ENV ssh_check` establishes an SSH connection to all app servers running in `ENV` environment and prints environment information to confirm the connection was made. This is used by [sdr-deploy](https://github.com/sul-dlss-labs/sdr-deploy/) to check SSH connections can be made in bulk before proceeding with a mass deploy.
+
 ### Display Revision (and branches)
 
 `cap ENV deployed_branch` displays the currently deployed revision (commit ID) and any branches containing the revision for each server in `ENV`.
