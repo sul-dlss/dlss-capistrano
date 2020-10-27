@@ -29,7 +29,7 @@ namespace :resque do
 
     # NOTE: no `desc` here to avoid publishing this task in the `cap -T` list
     task :add_hook do
-      after 'deploy:restart', 'resque:pool:hot_swap'
+      after 'deploy:publishing', 'resque:pool:hot_swap'
     end
 
     desc 'Swap in a new pool, then shut down the old pool'
