@@ -43,6 +43,21 @@ Set this in `config/deploy.rb` to automate the symlink creation, and then use `X
 
 `cap ENV deployed_branch` displays the currently deployed revision (commit ID) and any branches containing the revision for each server in `ENV`.
 
+### Resque-Pool hot swap (OPTIONAL)
+
+The `dlss-capistrano` gem provides a set of tasks for managing `resque-pool` workers when deployed in `hot_swap` mode. (If you are using `resque-pool` without `hot_swap`, we recommend continuing to use the `capistrano-resque-pool` gem instead of what `dlss-capistrano` provides.) The tasks are:
+
+```shell
+$ cap ENV resque:pool:hot_swap # this gracefully replaces the current pool with a new pool
+$ cap ENV resque:pool:stop     # this gracefully stops the current pool
+```
+
+By default, these tasks are not provided; instead, they must be explicitly enabled via adding a new `require` statement to the application's `Capfile`:
+
+```ruby
+require 'dlss/capistrano/resque_pool'
+```
+
 ### Sidekiq via systemd
 
 `cap ENV sidekiq_systemd:{quiet,stop,start,restart}`: quiets, stops, starts, restarts Sidekiq via systemd.
