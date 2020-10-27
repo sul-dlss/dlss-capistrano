@@ -58,6 +58,12 @@ By default, these tasks are not provided; instead, they must be explicitly enabl
 require 'dlss/capistrano/resque_pool'
 ```
 
+This is the hook provided if you opt in:
+
+```ruby
+after 'deploy:publishing', 'resque:pool:hot_swap'
+```
+
 ### Sidekiq via systemd
 
 `cap ENV sidekiq_systemd:{quiet,stop,start,restart}`: quiets, stops, starts, restarts Sidekiq via systemd.
