@@ -105,7 +105,6 @@ dlss-capistrano makes the following assumptions about your Ruby project
 - You do not have an .rvmrc checked into git (should be in your .gitignore)
 - You will not use rvm gemsets on the server you deploy to
 - Bundler will install specified gems into {your_project_home}/shared/bundle directory
-- Will deploy from the master branch, unless you set :branch to another branch or tag
 
 ## Copyright
 
