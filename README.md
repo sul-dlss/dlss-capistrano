@@ -72,7 +72,7 @@ These tasks are intended to replace those provided by `capistrano-sidekiq` gem, 
 
 ### Sneakers via systemd
 
-`cap ENV sneakers_systemd:{quiet,stop,start,restart}`: quiets, stops, starts, restarts Sneakers via systemd.
+`cap ENV sneakers_systemd:{stop,start,restart}`: stops, starts, restarts Sneakers via systemd.
 
 
 #### Capistrano role
