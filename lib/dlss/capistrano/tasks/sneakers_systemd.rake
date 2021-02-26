@@ -18,15 +18,7 @@ namespace :sneakers_systemd do
   task :add_hooks do
     after 'deploy:failed', 'sneakers_systemd:restart'
     after 'deploy:published', 'sneakers_systemd:start'
-    after 'deploy:starting', 'sneakers_systemd:quiet'
-    after 'deploy:updated', 'sneakers_systemd:stop'
-  end
-
-  desc 'Stop workers from picking up new jobs'
-  task :quiet do
-    on roles fetch(:sneakers_systemd_role) do
-      sudo :systemctl, 'reload', 'sneakers', raise_on_non_zero_exit: false
-    end
+    after 'deploy:starting', 'sneakers_systemd:stop'
   end
 
   desc 'Stop running workers gracefully'
