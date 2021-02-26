@@ -70,6 +70,11 @@ after 'deploy:publishing', 'resque:pool:hot_swap'
 
 These tasks are intended to replace those provided by `capistrano-sidekiq` gem, which has assumptions about systemd that do not apply to our deployed environments.
 
+### Sneakers via systemd
+
+`cap ENV sneakers_systemd:{quiet,stop,start,restart}`: quiets, stops, starts, restarts Sneakers via systemd.
+
+
 #### Capistrano role
 
 The sidekiq_systemd tasks assume a Capistrano role of `:app`. If your application uses a different Capistrano role for hosts that run Sidekiq workers, you can configure this in `config/deploy.rb`, *e.g.*:
