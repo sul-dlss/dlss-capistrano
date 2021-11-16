@@ -6,20 +6,6 @@ This gem provides Capistrano deployment tasks used by Stanford Libraries' Digita
 
 ## Included Tasks
 
-### Bundle 2-style Configuration
-
-To override the capistrano-bundler gem and use Bundler 2-style configuration without using deprecated arguments, you can set the following settings in `config/deploy.rb`:
-
-```ruby
-set :bundler2_config_use_hook, true # this is how to opt-in to bundler 2-style config. it's false by default
-set :bundler2_config_roles, [:app] # feel free to add roles to this array if you need them
-set :bundler2_config_deployment, true # this is true by default
-set :bundler2_config_without, 'production' # exclude development, and test bundle groups by default
-set :bundler2_config_path, '/tmp' # set to '#{shared_path}/bundle' by default
-```
-
-Note that only `bundler2_config_use_hook` **must** be set in order to use this functionality.
-
 ### Sidekiq symlink
 
 Every time the version of Sidekiq or Ruby changes, a corresponding Puppet PR must be made in order to update the XSendFilePath that allows Apache to access the bundled Sidekiq gem's assets. dlss-capistrano provides a hook to create a symlink to the bundled Sidekiq to avoid having to do this:
