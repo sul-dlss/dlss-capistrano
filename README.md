@@ -6,6 +6,21 @@ This gem provides Capistrano deployment tasks used by Stanford Libraries' Digita
 
 ## Included Tasks
 
+### Remote Execution
+
+Sometimes you want to execute a command on all boxes in a given environment, and dlss-capistrano's got your back:
+
+```shell
+$ cap qa remote_execute["ps -ef | grep rolling | grep -v grep"]
+00:00 remote_execute
+      ps -ef | grep rolling | grep -v grep
+      ps -ef | grep rolling | grep -v grep
+      dor-indexing-app-qa-a.stanford.edu:
+dor_ind+  9159     1 20 Feb18 ?        14:15:03 rolling index
+      dor-indexing-app-qa-b.stanford.edu:
+dor_ind+ 29689     1 20 Feb18 ?        14:24:53 rolling index
+```
+
 ### Sidekiq symlink
 
 Every time the version of Sidekiq or Ruby changes, a corresponding Puppet PR must be made in order to update the XSendFilePath that allows Apache to access the bundled Sidekiq gem's assets. dlss-capistrano provides a hook to create a symlink to the bundled Sidekiq to avoid having to do this:
