@@ -32,6 +32,17 @@ set :bundled_sidekiq_roles, [:app] # this is the default value
 
 Set this in `config/deploy.rb` to automate the symlink creation, and then use `XSendFilePath /path/to/my/app/shared/bundled_sidekiq/web/assets` in Apache configuration (in Puppet).
 
+### Status checking
+
+Use `cap ENV check_status` to hit the (*e.g.*, [okcomputer](https://github.com/sportngin/okcomputer)-based) status endpoint of your application.
+
+By default, these checks run against all nodes with the `:web` role and hit the `/status/all` endpoint. These can be configured in `config/deploy.rb` (or `config/deploy/{ENV}.rb` if you need environment-specific variation):
+
+```ruby
+set :check_status_roles, [:my_status_check_web_role]
+set :check_status_path, '/my/status/check/endpoint'
+```
+
 ### SSH
 
 `cap ENV ssh` establishes an SSH connection to the host running in `ENV` environment, and changes into the current deployment directory
