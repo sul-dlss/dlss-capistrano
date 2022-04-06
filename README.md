@@ -34,7 +34,9 @@ Set this in `config/deploy.rb` to automate the symlink creation, and then use `X
 
 ### Status checking
 
-Use `cap ENV check_status` to hit the (*e.g.*, [okcomputer](https://github.com/sportngin/okcomputer)-based) status endpoint of your application.
+**NOTE**: Requires that `curl` is installed on each server host the check is run on.
+
+Use `cap ENV check_status` to hit the (*e.g.*, [okcomputer](https://github.com/sportngin/okcomputer)-based) status endpoint of your application. This is especially valuable with hosts that cannot be directly checked due to firewall rules.
 
 By default, these checks run against all nodes with the `:web` role and hit the `/status/all` endpoint. These can be configured in `config/deploy.rb` (or `config/deploy/{ENV}.rb` if you need environment-specific variation):
 
