@@ -114,6 +114,45 @@ after 'deploy:starting', 'sidekiq_systemd:quiet'
 after 'deploy:updated', 'sidekiq_systemd:stop'
 ```
 
+
+### Verify Ruby Versions
+
+There are three tasks available to check and verify the ruby version(s) installed and being used on the remote server:
+
+#### versions
+
+```
+bundle exec cap env ruby:versions
+=> host-1.stanford.edu,3.1.1,2.7.1,2.7.2,3.0.0,3.0.3,3.1.0,3.1.1,3.1.2
+=> host-2.stanford.edu,3.1.1,2.7.1,2.7.2,3.0.0,3.0.3,3.1.0,3.1.1,3.1.2
+```
+
+This comma seperated list is hostname,default ruby,installed versions. This list can then be uesd in automated deployment tools to report across hosts where version mismatches may occur.
+
+#### check_version
+```
+bundle exec cap env ruby:check_version
+=> host-1.stanford.edu - App: 3.1.1, Default: 3.1.1, Installed: 2.7.1, 2.7.2, 3.0.0, 3.0.3, 3.1.0, 3.1.1, 3.1.2
+=> host-2.stanford.edu - App: 3.1.1, Default: 3.1.1, Installed: 2.7.1, 2.7.2, 3.0.0, 3.0.3, 3.1.0, 3.1.1, 3.1.2
+```
+
+The `check_version` task is a human readable format of the `versions` task.
+
+#### verify_version
+
+The `verify_version` is available to use as a deployment hook in order to halt deployment on a version mismatch
+
+Add the following to `configs/deploy/env.rb`
+
+```
+before 'deploy:starting', 'ruby:verify_version'
+```
+
+If there is a version mismatch, the deployment will be stopped and the following message will be reported:
+```
+Cannot deploy because app requires ruby 3.1.1 and it is not installed (2.7.2, 2.7.5)
+```
+
 ## Assumptions
 
 dlss-capistrano makes the following assumptions about your Ruby project
