@@ -133,7 +133,9 @@ This comma seperated list is `hostname: default ruby,installed versions`. This l
 ```
 bundle exec cap env ruby:check_version
 => host-1.stanford.edu - App: 3.1.1, Default: 3.1.1, Installed: 2.7.1, 2.7.2, 3.0.0, 3.0.3, 3.1.0, 3.1.1, 3.1.2
+     	Passenger: Version: ruby 3.1.1p157 (2021-11-24 revision 3fb7d2cadc) [x86_64-linux]
 => host-2.stanford.edu - App: 3.1.1, Default: 3.1.1, Installed: 2.7.1, 2.7.2, 3.0.0, 3.0.3, 3.1.0, 3.1.1, 3.1.2
+      Passenger: Version: ruby 3.1.1p157 (2021-11-24 revision 3fb7d2cadc) [x86_64-linux]
 ```
 
 The `check_app_version` task is a human readable format of the `installed_versions` task. If the application does not default a version in the `Gemfile` then `N/A` is reported.
@@ -158,6 +160,11 @@ In the case that the application does not define a version in the `Gemfile` repo
 Ruby version not set in application, check Gemfile
 ```
 
+If the version required by the app is not reported as the version being used by Passenger, the deployment will be aborted with the following message:
+```
+Cannot deploy because app required ruby 3.1.1, Passenger is configured to use:
+    Passenger: Version: ruby 3.0.3p157 (2021-11-24 revision 3fb7d2cadc) [x86_64-linux]
+```
 ## Assumptions
 
 dlss-capistrano makes the following assumptions about your Ruby project
