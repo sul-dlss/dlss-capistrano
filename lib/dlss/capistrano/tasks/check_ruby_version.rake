@@ -1,7 +1,7 @@
 # Capistrano plugin hook to set default values
 namespace :load do
   task :defaults do
-    set :validate_ruby_on_deploy, fetch(:validate_ruby_on_deploy, false)
+    set :validate_ruby_on_deploy, fetch(:validate_ruby_on_deploy, false) # This is required to opt-in to the validation
     set :skip_validate_ruby, !!ENV['SKIP_VALIDATE_RUBY']
   end
 end
@@ -30,15 +30,19 @@ namespace :ruby do
   desc 'Report ruby versions'
   task :check_app_version do
     on roles(:all), in: :sequence do |host|
-      app_ruby = 'N/A' || Bundler::LockfileParser.new(Bundler.read_file('Gemfile.lock')).ruby_version&.split.last.split('p').first
+      app_ruby = Bundler::LockfileParser.new(Bundler.read_file('Gemfile.lock')).ruby_version&.split.last.split('p').first || 'N/A'
 
       default_ruby = capture("/bin/bash -lc 'rvm list default string'").chomp.chomp.split('-').last
-      passenger_ruby = capture("/bin/bash -lc 'passenger-config about ruby-command string | grep -i Version'")
+      passenger_ruby = capture("/bin/bash -lc 'passenger-config about ruby-command string | grep -i Version'",
+                               raise_on_non_zero_exit: false)
       system_rubies = capture("/bin/bash -lc 'rvm list rubies'").split.grep(/ruby/).map do |version|
         version.delete_prefix('ruby-')
       end
 
-      info "#{host} - App: #{app_ruby}, Default: #{default_ruby}, Installed: #{system_rubies.join(', ')}\n\tPassenger: #{passenger_ruby}"
+      info_str = "#{host} - App: #{app_ruby}, Default: #{default_ruby}, Installed: #{system_rubies.join(', ')}"
+      info_str += "\n\tPassenger: #{passenger_ruby}" unless passenger_ruby.empty?
+
+      info info_str
     end
   end
 
@@ -52,7 +56,8 @@ namespace :ruby do
   task :verify_deployed_version do
     on roles(:all), in: :sequence do |host|
       app_ruby = Bundler::LockfileParser.new(Bundler.read_file('Gemfile.lock')).ruby_version&.split&.last&.split('p')&.first
-      passenger_ruby = capture("/bin/bash -lc 'passenger-config about ruby-command string | grep -i Version'")
+      passenger_ruby = capture("/bin/bash -lc 'passenger-config about ruby-command string | grep -i Version'",
+                               raise_on_non_zero_exit: false)
       default_ruby = capture("/bin/bash -lc 'rvm list default string'").chomp.chomp.split('-').last
       system_rubies = capture("/bin/bash -lc 'rvm list rubies'").split.grep(/ruby/).map do |version|
         version.delete_prefix('ruby-')
@@ -60,7 +65,7 @@ namespace :ruby do
 
       abort 'Ruby version not set in application, check Gemfile' if app_ruby.nil?
 
-      unless passenger_ruby.include?(app_ruby)
+      unless passenger_ruby.empty? || passenger_ruby.include?(app_ruby)
         abort "Cannot deploy because app required ruby #{app_ruby} Passenger is configured to use:\n\t#{passenger_ruby}"
       end
 
