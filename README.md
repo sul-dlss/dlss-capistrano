@@ -119,38 +119,43 @@ after 'deploy:updated', 'sidekiq_systemd:stop'
 
 There are three tasks available to check and verify the ruby version(s) installed and being used on the remote server:
 
-#### versions
+#### ruby:installed_versions
 
 ```
 bundle exec cap env ruby:versions
-=> host-1.stanford.edu,3.1.1,2.7.1,2.7.2,3.0.0,3.0.3,3.1.0,3.1.1,3.1.2
-=> host-2.stanford.edu,3.1.1,2.7.1,2.7.2,3.0.0,3.0.3,3.1.0,3.1.1,3.1.2
+=> host-1.stanford.edu: 3.1.1,2.7.1,2.7.2,3.0.0,3.0.3,3.1.0,3.1.1,3.1.2
+=> host-2.stanford.edu: 3.1.1,2.7.1,2.7.2,3.0.0,3.0.3,3.1.0,3.1.1,3.1.2
 ```
 
-This comma seperated list is hostname,default ruby,installed versions. This list can then be uesd in automated deployment tools to report across hosts where version mismatches may occur.
+This comma seperated list is `hostname: default ruby,installed versions`. This list can then be uesd in automated deployment tools to report across hosts where version mismatches may occur.
 
-#### check_version
+#### ruby:check_app_version
 ```
 bundle exec cap env ruby:check_version
 => host-1.stanford.edu - App: 3.1.1, Default: 3.1.1, Installed: 2.7.1, 2.7.2, 3.0.0, 3.0.3, 3.1.0, 3.1.1, 3.1.2
 => host-2.stanford.edu - App: 3.1.1, Default: 3.1.1, Installed: 2.7.1, 2.7.2, 3.0.0, 3.0.3, 3.1.0, 3.1.1, 3.1.2
 ```
 
-The `check_version` task is a human readable format of the `versions` task.
+The `check_app_version` task is a human readable format of the `installed_versions` task. If the application does not default a version in the `Gemfile` then `N/A` is reported.
 
-#### verify_version
+#### ruby:verify_deployed_version
 
-The `verify_version` is available to use as a deployment hook in order to halt deployment on a version mismatch
+The `verify_deployed_version` is available to use as a deployment hook in order to halt deployment on a version mismatch
 
 Add the following to `configs/deploy/env.rb`
 
 ```
-before 'deploy:starting', 'ruby:verify_version'
+before 'deploy:starting', 'ruby:verify_deployed_version'
 ```
 
 If there is a version mismatch, the deployment will be stopped and the following message will be reported:
 ```
 Cannot deploy because app requires ruby 3.1.1 and it is not installed (2.7.2, 2.7.5)
+```
+
+In the case that the application does not define a version in the `Gemfile` report will look like:
+```
+Ruby version not set in application, check Gemfile
 ```
 
 ## Assumptions
