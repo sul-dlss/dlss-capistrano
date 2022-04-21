@@ -8,7 +8,7 @@ end
 
 desc 'Run status checks'
 task :check_status do
-  on roles fetch(:check_status_roles), in: :sequence do |host|
+  on roles(fetch(:check_status_roles)), in: :sequence do |host|
     status_url = "https://#{host}#{fetch(:check_status_path)}"
 
     info "Checking status at #{status_url}"
