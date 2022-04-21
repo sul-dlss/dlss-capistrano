@@ -1,3 +1,18 @@
+# Capistrano plugin hook to set default values
+namespace :load do
+  task :defaults do
+    set :validate_ruby_on_deploy, fetch(:validate_ruby_on_deploy, false)
+    set :skip_validate_ruby, !!ENV['SKIP_VALIDATE_RUBY']
+  end
+end
+
+# Integrate sidekiq-bundle hook into Capistrano
+namespace :deploy do
+  before :starting, :add_validate_ruby_hook do
+    invoke 'ruby:add_hook' if fetch(:validate_ruby_on_deploy)
+  end
+end
+
 # Note:
 # - The '/bin/bash -lc' syntax below is addressing https://github.com/sul-dlss/operations-tasks/issues/2937
 namespace :ruby do
@@ -25,6 +40,12 @@ namespace :ruby do
 
       info "#{host} - App: #{app_ruby}, Default: #{default_ruby}, Installed: #{system_rubies.join(', ')}\n\tPassenger: #{passenger_ruby}"
     end
+  end
+
+  # This adds the verify_deployed_Version task, when configured, early in the deploymen to avoid
+  # cloning/symlinking/etc if we do not want the deploy to continue.
+  task :add_hook do
+    before 'git:wrapper', 'ruby:verify_deployed_version' unless ENV['SKIP_VALIDATE_RUBY']
   end
 
   desc 'Verify ruby version'

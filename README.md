@@ -144,10 +144,15 @@ The `check_app_version` task is a human readable format of the `installed_versio
 
 The `verify_deployed_version` is available to use as a deployment hook in order to halt deployment on a version mismatch
 
-Add the following to `configs/deploy/env.rb`
+By default, this task is disabled. Add the following to `configs/deploy.rb` to enable the `verify_deployed_version` task.
 
 ```
-before 'deploy:starting', 'ruby:verify_deployed_version'
+set :validate_ruby_on_deploy, true # Default value is false
+```
+
+When enabled, the validation can be manually skipped when necessary by setting the `SKIP_VALIDATE_RUBY` environment veriable:
+```
+SKIP_VALIDATE_RUBY=true bundle exec cap env deploy
 ```
 
 If there is a version mismatch, the deployment will be stopped and the following message will be reported:
