@@ -21,7 +21,7 @@ namespace :bundled_sidekiq do
 
   # NOTE: no `desc` here to avoid publishing this task in the `cap -T` list
   task :symlink do
-    on roles fetch(:bundled_sidekiq_roles) do
+    on roles(fetch(:bundled_sidekiq_roles)) do
       within release_path do
         bundled_sidekiq_path = capture(:bundle, :info, '--path', :sidekiq)
         execute(:ln, '-sf', bundled_sidekiq_path, "#{shared_path}/bundled_sidekiq")

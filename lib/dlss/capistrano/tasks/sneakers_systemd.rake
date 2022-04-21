@@ -23,21 +23,21 @@ namespace :sneakers_systemd do
 
   desc 'Stop running workers gracefully'
   task :stop do
-    on roles fetch(:sneakers_systemd_role) do
+    on roles(fetch(:sneakers_systemd_role)) do
       sudo :systemctl, 'stop', 'sneakers'
     end
   end
 
   desc 'Start workers'
   task :start do
-    on roles fetch(:sneakers_systemd_role) do
+    on roles(fetch(:sneakers_systemd_role)) do
       sudo :systemctl, 'start', 'sneakers'
     end
   end
 
   desc 'Restart workers'
   task :restart do
-    on roles fetch(:sneakers_systemd_role) do
+    on roles(fetch(:sneakers_systemd_role)) do
       sudo :systemctl, 'restart', 'sneakers', raise_on_non_zero_exit: false
     end
   end

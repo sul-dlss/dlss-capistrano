@@ -24,28 +24,28 @@ namespace :sidekiq_systemd do
 
   desc 'Stop workers from picking up new jobs'
   task :quiet do
-    on roles fetch(:sidekiq_systemd_role) do
+    on roles(fetch(:sidekiq_systemd_role)) do
       sudo :systemctl, 'reload', 'sidekiq-*', raise_on_non_zero_exit: false
     end
   end
 
   desc 'Stop running workers gracefully'
   task :stop do
-    on roles fetch(:sidekiq_systemd_role) do
+    on roles(fetch(:sidekiq_systemd_role)) do
       sudo :systemctl, 'stop', 'sidekiq-*'
     end
   end
 
   desc 'Start workers'
   task :start do
-    on roles fetch(:sidekiq_systemd_role) do
+    on roles(fetch(:sidekiq_systemd_role)) do
       sudo :systemctl, 'start', 'sidekiq-*', '--all'
     end
   end
 
   desc 'Restart workers'
   task :restart do
-    on roles fetch(:sidekiq_systemd_role) do
+    on roles(fetch(:sidekiq_systemd_role)) do
       sudo :systemctl, 'restart', 'sidekiq-*', raise_on_non_zero_exit: false
     end
   end
