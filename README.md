@@ -114,62 +114,27 @@ after 'deploy:starting', 'sidekiq_systemd:quiet'
 after 'deploy:updated', 'sidekiq_systemd:stop'
 ```
 
+### Validate Ruby Version
 
-### Verify Ruby Versions
-
-There are three tasks available to check and verify the ruby version(s) installed and being used on the remote server:
-
-#### ruby:installed_versions
+There is a task available to make sure the Ruby version specified in the Gemfile is installed and being used on the server:
 
 ```
-bundle exec cap env ruby:versions
-=> host-1.stanford.edu: 3.1.1,2.7.1,2.7.2,3.0.0,3.0.3,3.1.0,3.1.1,3.1.2
-=> host-2.stanford.edu: 3.1.1,2.7.1,2.7.2,3.0.0,3.0.3,3.1.0,3.1.1,3.1.2
+bundle exec cap env ruby:validate_deployed_version
 ```
 
-This comma seperated list is `hostname: default ruby,installed versions`. This list can then be uesd in automated deployment tools to report across hosts where version mismatches may occur.
+If a Ruby version is not specified in the Gemfile, or if that version is not installed on the server, the task will abort.
 
-#### ruby:check_app_version
-```
-bundle exec cap env ruby:check_version
-=> host-1.stanford.edu - App: 3.1.1, Default: 3.1.1, Installed: 2.7.1, 2.7.2, 3.0.0, 3.0.3, 3.1.0, 3.1.1, 3.1.2
-     	Passenger: Version: ruby 3.1.1p157 (2021-11-24 revision 3fb7d2cadc) [x86_64-linux]
-=> host-2.stanford.edu - App: 3.1.1, Default: 3.1.1, Installed: 2.7.1, 2.7.2, 3.0.0, 3.0.3, 3.1.0, 3.1.1, 3.1.2
-      Passenger: Version: ruby 3.1.1p157 (2021-11-24 revision 3fb7d2cadc) [x86_64-linux]
-```
-
-The `check_app_version` task is a human readable format of the `installed_versions` task. If the application does not default a version in the `Gemfile` then `N/A` is reported.
-
-#### ruby:verify_deployed_version
-
-The `verify_deployed_version` is available to use as a deployment hook in order to halt deployment on a version mismatch
-
-By default, this task is disabled. Add the following to `configs/deploy.rb` to enable the `verify_deployed_version` task.
+This task may be used automatically at deploy time (after pulling the specified branch) by opting in. By default, this task does *not* run automatically. To enable that, add the following to `config/deploy.rb`:
 
 ```
 set :validate_ruby_on_deploy, true # Default value is false
 ```
 
-When enabled, the validation can be manually skipped when necessary by setting the `SKIP_VALIDATE_RUBY` environment veriable:
+Even after you opt in, the validation may be skipped on demand by setting the `SKIP_VALIDATE_RUBY` environment veriable:
 ```
 SKIP_VALIDATE_RUBY=true bundle exec cap env deploy
 ```
 
-If there is a version mismatch, the deployment will be stopped and the following message will be reported:
-```
-Cannot deploy because app requires ruby 3.1.1 and it is not installed (2.7.2, 2.7.5)
-```
-
-In the case that the application does not define a version in the `Gemfile` report will look like:
-```
-Ruby version not set in application, check Gemfile
-```
-
-If the version required by the app is not reported as the version being used by Passenger, the deployment will be aborted with the following message:
-```
-Cannot deploy because app required ruby 3.1.1, Passenger is configured to use:
-    Passenger: Version: ruby 3.0.3p157 (2021-11-24 revision 3fb7d2cadc) [x86_64-linux]
-```
 ## Assumptions
 
 dlss-capistrano makes the following assumptions about your Ruby project
