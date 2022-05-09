@@ -60,8 +60,8 @@ namespace :ruby do
 
       if app_ruby.nil?
         abort 'Ruby version not set in Gemfile.lock and capistrano configured to validate Ruby version, check Gemfile or run bundle install' if app_ruby.nil?
-      elsif !passenger_ruby.empty? && !passenger_ruby.include?(app_ruby)
-        abort "Cannot deploy because app required ruby #{app_ruby} and Passenger is using #{passenger_ruby}"
+      # elsif !passenger_ruby.empty? && !passenger_ruby.include?(app_ruby)
+      #   abort "Cannot deploy because app required ruby #{app_ruby} and Passenger is using #{passenger_ruby}"
       elsif !system_rubies.include?(app_ruby)
         abort "Cannot deploy because app requires ruby #{app_ruby} and it is not installed (#{system_rubies.join(', ')})"
       else
