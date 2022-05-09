@@ -19,20 +19,26 @@ namespace :ruby do
   # cloning/symlinking/etc if we do not want the deploy to continue.
   task :add_hook do
     after 'deploy:updating', 'ruby:validate_deployed_version' unless ENV['SKIP_VALIDATE_RUBY']
+    before 'deploy:updating', 'ruby:run_specified_version' # unless ENV['SKIP_VALIDATE_RUBY']
+  end
+
+  desc 'Force SSHKIT to use app-specified Ruby version'
+  task :run_specified_version do
+    app_ruby = Bundler::LockfileParser.new(Bundler.read_file('Gemfile.lock')).ruby_version&.split&.last&.split('p')&.first
+
+    # Make sure capistrano-rvm uses the version of Ruby specified in the Gemfile.lock
+    fetch(:rvm_map_bins).each do |command|
+      # Remove the earlier rvm prefix (via capistrano-rvm hook)
+      SSHKit.config.command_map.prefix[command.to_sym].shift
+      # Patc in the rvm prefix corresponding to the version of Ruby specified in Gemfile.lock
+      SSHKit.config.command_map.prefix[command.to_sym].unshift("#{fetch(:rvm_path)}/bin/rvm #{app_ruby} do")
+    end
   end
 
   desc 'Validate ruby version'
   task :validate_deployed_version do
     on roles(:all), in: :sequence do |host|
       app_ruby = Bundler::LockfileParser.new(Bundler.read_file('Gemfile.lock')).ruby_version&.split&.last&.split('p')&.first
-
-      # Make sure capistrano-rvm uses the version of Ruby specified in the Gemfile.lock
-      fetch(:rvm_map_bins).each do |command|
-        # Remove the earlier rvm prefix (via capistrano-rvm hook)
-        SSHKit.config.command_map.prefix[command.to_sym].shift
-        # Patc in the rvm prefix corresponding to the version of Ruby specified in Gemfile.lock
-        SSHKit.config.command_map.prefix[command.to_sym].unshift("#{fetch(:rvm_path)}/bin/rvm #{app_ruby} do")
-      end
 
       default_ruby = capture("/bin/bash -lc 'rvm --color=no list default string'").chomp.chomp.split('-').last
       system_rubies = capture("/bin/bash -lc 'rvm --color=no list rubies'").split.grep(/ruby/).map do |version|
