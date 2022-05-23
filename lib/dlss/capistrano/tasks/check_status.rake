@@ -14,8 +14,12 @@ task :check_status do
     info "Checking status at #{status_url}"
     status_body = capture("curl #{status_url}")
 
-    if status_body.match?(/FAILED/)
+    if status_body.nil?
+      error 'Endpoint could not be reached'
+    elsif status_body.match?(/FAILED/)
       error status_body.lines.grep(/FAILED/).join
+    elsif !status_body.match?(/PASSED/)
+      error status_body
     else
       info SSHKit::Color.new($stdout).colorize('All checks passed!', :green)
     end
