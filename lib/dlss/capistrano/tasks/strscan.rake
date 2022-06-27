@@ -13,4 +13,6 @@ task :update_global_strscan do
   end
 end
 
-before :'passenger:restart', :update_global_strscan
+if Rake::Task.task_defined? :'passenger:restart'
+  before :'passenger:restart', :update_global_strscan
+end
