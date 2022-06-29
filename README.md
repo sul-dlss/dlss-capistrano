@@ -45,6 +45,12 @@ set :check_status_roles, [:my_status_check_web_role]
 set :check_status_path, '/my/status/check/endpoint'
 ```
 
+### Update global strscan gem
+
+This insures the global version of strscan matches the version specified in the bundle.
+
+To skip this step provide `SKIP_UPDATE_STRSCAN=1`
+
 ### SSH
 
 `cap ENV ssh` establishes an SSH connection to the host running in `ENV` environment, and changes into the current deployment directory
