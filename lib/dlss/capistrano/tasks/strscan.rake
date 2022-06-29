@@ -14,5 +14,5 @@ task :update_global_strscan do
 end
 
 if Rake::Task.task_defined? :'passenger:restart'
-  before :'passenger:restart', :update_global_strscan
+  before :'passenger:restart', :update_global_strscan unless ENV['SKIP_UPDATE_STRSCAN']
 end
