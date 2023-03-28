@@ -94,6 +94,11 @@ These tasks are intended to replace those provided by `capistrano-sidekiq` gem, 
 
 `cap ENV sneakers_systemd:{stop,start,restart}`: stops, starts, restarts Sneakers via systemd.
 
+### Racecar via systemd
+
+`cap ENV racecar_systemd:{stop,start,restart}`: stops, starts, restarts Racecar via systemd.
+
+
 
 #### Capistrano role
 
