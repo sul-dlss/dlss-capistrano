@@ -136,6 +136,12 @@ dlss-capistrano makes the following assumptions about your Ruby project
 - You will not use rvm gemsets on the server you deploy to
 - Bundler will install specified gems into {your_project_home}/shared/bundle directory
 
+## Releasing
+
+To release a new version:
+1. Update the version number in `dlss-capistrano.gemspec` and commit. 
+2. `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the .gem file to rubygems.org.
+
 ## Copyright
 
 Copyright (c) 2020 Stanford University. See LICENSE for details.
