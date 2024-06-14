@@ -42,7 +42,7 @@ Set this in `config/deploy.rb` to automate the symlink creation, and then use `X
 
 **NOTE**: Requires that `curl` is installed on each server host the check is run on.
 
-Use `cap ENV check_status` to hit the (*e.g.*, [okcomputer](https://github.com/sportngin/okcomputer)-based) status endpoint of your application. This is especially valuable with hosts that cannot be directly checked due to firewall rules.
+Use `cap ENV check_status` to hit the (_e.g._, [okcomputer](https://github.com/sportngin/okcomputer)-based) status endpoint of your application. This is especially valuable with hosts that cannot be directly checked due to firewall rules.
 
 By default, these checks run against all nodes with the `:web` role and hit the `/status/all` endpoint. These can be configured in `config/deploy.rb` (or `config/deploy/{ENV}.rb` if you need environment-specific variation):
 
@@ -69,27 +69,6 @@ To skip this step provide `SKIP_UPDATE_STRSCAN=1`
 
 `cap ENV deployed_branch` displays the currently deployed revision (commit ID) and any branches containing the revision for each server in `ENV`.
 
-### Resque-Pool hot swap (OPTIONAL)
-
-The `dlss-capistrano` gem provides a set of tasks for managing `resque-pool` workers when deployed in `hot_swap` mode. (If you are using `resque-pool` without `hot_swap`, we recommend continuing to use the `capistrano-resque-pool` gem instead of what `dlss-capistrano` provides.) The tasks are:
-
-```shell
-$ cap ENV resque:pool:hot_swap # this gracefully replaces the current pool with a new pool
-$ cap ENV resque:pool:stop     # this gracefully stops the current pool
-```
-
-By default, these tasks are not provided; instead, they must be explicitly enabled via adding a new `require` statement to the application's `Capfile`:
-
-```ruby
-require 'dlss/capistrano/resque_pool'
-```
-
-This is the hook provided if you opt in:
-
-```ruby
-after 'deploy:publishing', 'resque:pool:hot_swap'
-```
-
 ### Sidekiq via systemd
 
 `cap ENV sidekiq_systemd:{quiet,stop,start,restart}`: quiets, stops, starts, restarts Sidekiq via systemd.
@@ -104,11 +83,9 @@ These tasks are intended to replace those provided by `capistrano-sidekiq` gem, 
 
 `cap ENV racecar_systemd:{stop,start,restart}`: stops, starts, restarts Racecar via systemd.
 
-
-
 #### Capistrano role
 
-The sidekiq_systemd tasks assume a Capistrano role of `:app`. If your application uses a different Capistrano role for hosts that run Sidekiq workers, you can configure this in `config/deploy.rb`, *e.g.*:
+The sidekiq_systemd tasks assume a Capistrano role of `:app`. If your application uses a different Capistrano role for hosts that run Sidekiq workers, you can configure this in `config/deploy.rb`, _e.g._:
 
 ```ruby
 set :sidekiq_systemd_role, :worker
@@ -145,7 +122,8 @@ dlss-capistrano makes the following assumptions about your Ruby project
 ## Releasing
 
 To release a new version:
-1. Update the version number in `dlss-capistrano.gemspec` and commit. 
+
+1. Update the version number in `dlss-capistrano.gemspec` and commit.
 2. `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the .gem file to rubygems.org.
 
 ## Copyright
