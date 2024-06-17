@@ -1,6 +1,5 @@
 require 'capistrano/bundle_audit'
 require 'capistrano/shared_configs'
-require 'net/ssh/kerberos'
 
 # NOTE: This is only here so we can test this task against any host without needing to touch config/deploy/*.rb
 #

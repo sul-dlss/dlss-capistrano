@@ -4,7 +4,7 @@ $:.unshift lib unless $:.include?(lib)
 
 Gem::Specification.new do |s|
   s.name        = "dlss-capistrano"
-  s.version     = '5.0.2'
+  s.version     = '5.0.3s'
 
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Chris Beer", 'Mike Giarlo']
