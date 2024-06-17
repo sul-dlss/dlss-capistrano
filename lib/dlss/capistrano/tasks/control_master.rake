@@ -4,6 +4,7 @@ require 'open3'
 
 namespace :load do
   task :defaults do
+    set :use_controlmaster, ENV.fetch('USE_CAPISTRANO_CONTROLMASTER', false) == 'true'
     set :controlmaster_host, ENV.fetch('CONTROLMASTER_HOST', 'dlss-jump')
     set :controlmaster_socket, ENV.fetch('CONTROLMASTER_SOCKET', "~/.ssh/%r@%h:%p")
   end
@@ -19,6 +20,8 @@ end
 namespace :controlmaster do
   desc 'set up an SSH controlmaster process if missing'
   task :setup do
+    next unless fetch(:use_controlmaster)
+
     if fetch(:log_level) == :debug
       puts "checking if controlmaster process exists (#{fetch(:controlmaster_socket)}) for #{fetch(:controlmaster_host)}"
     end
@@ -38,6 +41,8 @@ namespace :controlmaster do
 
   # NOTE: no `desc` here to avoid publishing this task in the `cap -T` list
   task :start do
+    next unless fetch(:use_controlmaster)
+
     if fetch(:log_level) == :debug
       puts "creating new controlmaster process for #{fetch(:controlmaster_host)} at #{fetch(:controlmaster_socket)}"
     end

@@ -6,6 +6,8 @@ This gem provides Capistrano deployment tasks used by Stanford Libraries' Digita
 
 ## Necessary setup
 
+To use controlmaster, you need to opt-in by setting the environment variable `USE_CAPISTRANO_CONTROLMASTER=true` (in e.g. your `~/.zshenv` file or similar for your particular shell).
+
 If you use values other than the defaults for  `CONTROLMASTER_HOST` (`dlss-jump`) or `CONTROLMASTER_SOCKET` (`"~/.ssh/%r@%h:%p"`), you'll want to set these environment variables locally to the values you use (in e.g. your `~/.zshenv` file or similar for your particular shell).  Otherwise, the gem will fail to connect to the appropriate host and/or won't be able to properly check the status of the control master process.
 
 The control master host is the value of the `ProxyJump` directive in your SSH config, and the control master socket is the value of the `ControlPath` directive in your SSH config.
