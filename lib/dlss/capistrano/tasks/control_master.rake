@@ -2,8 +2,12 @@
 
 require 'open3'
 
-CONTROLMASTER_HOST = ENV.fetch('CONTROLMASTER_HOST', 'dlss-jump')
-CONTROLMASTER_SOCKET = ENV.fetch('CONTROLMASTER_SOCKET', "~/.ssh/%r@%h:%p")
+namespace :load do
+  task :defaults do
+    set :controlmaster_host, ENV.fetch('CONTROLMASTER_HOST', 'dlss-jump')
+    set :controlmaster_socket, ENV.fetch('CONTROLMASTER_SOCKET', "~/.ssh/%r@%h:%p")
+  end
+end
 
 # Integrate hook into Capistrano
 namespace :deploy do
@@ -16,11 +20,11 @@ namespace :controlmaster do
   desc 'set up an SSH controlmaster process if missing'
   task :setup do
     if fetch(:log_level) == :debug
-      puts "checking if controlmaster process exists (#{CONTROLMASTER_SOCKET}) for #{CONTROLMASTER_HOST}"
+      puts "checking if controlmaster process exists (#{fetch(:controlmaster_socket)}) for #{fetch(:controlmaster_host)}"
     end
 
     status, output = Open3.popen2e(
-      "ssh -O check -S #{CONTROLMASTER_SOCKET} #{CONTROLMASTER_HOST}"
+      "ssh -O check -S #{CONTROLMASTER_SOCKET} #{fetch(:controlmaster_host)}"
     ) { |_, outerr, wait_thr| next wait_thr.value, outerr.read }
 
     if status.success?
@@ -35,11 +39,11 @@ namespace :controlmaster do
   # NOTE: no `desc` here to avoid publishing this task in the `cap -T` list
   task :start do
     if fetch(:log_level) == :debug
-      puts "creating new controlmaster process for #{CONTROLMASTER_HOST} at #{CONTROLMASTER_SOCKET}"
+      puts "creating new controlmaster process for #{fetch(:controlmaster_host)} at #{fetch(:controlmaster_socket)}"
     end
 
     status, output = Open3.popen2e(
-      "ssh -f -N -S #{CONTROLMASTER_SOCKET} #{CONTROLMASTER_HOST}"
+      "ssh -f -N -S #{fetch(:controlmaster_socket)} #{fetch(:controlmaster_host)}"
     ) { |_, outerr, wait_thr| next wait_thr.value, outerr.read }
 
     if status.success?
