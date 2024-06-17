@@ -2,7 +2,7 @@
 
 require 'open3'
 
-CONTROLMASTER_HOST = ENV.fetch('CONTROLMASTER_HOST', 'dlss-jump')
+CONTROLMASTER_HOST = ENV.fetch('CONTROLMASTER_HOST', 'dlss-jump.stanford.edu')
 CONTROLMASTER_SOCKET = ENV.fetch('CONTROLMASTER_SOCKET', "~/.ssh/%r@%h:%p")
 
 # Integrate hook into Capistrano
