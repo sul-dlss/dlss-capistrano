@@ -27,7 +27,7 @@ namespace :controlmaster do
     end
 
     status, output = Open3.popen2e(
-      "ssh -O check -S #{CONTROLMASTER_SOCKET} #{fetch(:controlmaster_host)}"
+      "ssh -O check -S #{fetch(:controlmaster_socket)} #{fetch(:controlmaster_host)}"
     ) { |_, outerr, wait_thr| next wait_thr.value, outerr.read }
 
     if status.success?
