@@ -1,5 +1,5 @@
 desc 'display the deployed branch and commit'
-task deployed_branch: 'controlmaster:setup' do
+task deployed_branch: ['controlmaster:setup', 'otk:generate'] do
   # see https://github.com/mattbrictson/airbrussh/tree/v1.5.2?tab=readme-ov-file#capistrano-34x
   Airbrussh.configure do |config|
     config.truncate = false

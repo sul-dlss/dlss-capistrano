@@ -10,7 +10,7 @@ namespace :load do
 end
 
 desc "execute command on all servers"
-task :remote_execute, [:command] => 'controlmaster:setup' do |_task, args|
+task :remote_execute, [:command] => ['controlmaster:setup', 'otk:generate'] do |_task, args|
   raise ArgumentError, 'remote_execute task requires an argument' unless args[:command]
 
   # see https://github.com/mattbrictson/airbrussh/tree/v1.5.2?tab=readme-ov-file#capistrano-34x
