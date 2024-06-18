@@ -4,7 +4,9 @@
 
 This gem provides Capistrano deployment tasks used by Stanford Libraries' Digital Library Systems and Services group.
 
-## Necessary setup
+## Necessary Setup
+
+To start, we recommend an SSH configuration like the one described in the [DeveloperPlaybook](https://github.com/sul-dlss/DeveloperPlaybook/blob/main/best-practices/ssh_configuration.md), since it has sensible defaults for Kerberos authentication and multi-factor authentication (using `ProxyJump` and `ControlMaster`, etc.).
 
 To use controlmaster, you need to opt-in by setting the environment variable `USE_CAPISTRANO_CONTROLMASTER=true` (in e.g. your `~/.zshenv` file or similar for your particular shell).
 
