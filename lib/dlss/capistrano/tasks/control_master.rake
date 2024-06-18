@@ -12,7 +12,7 @@ end
 
 # Integrate hook into Capistrano
 namespace :deploy do
-  before :starting, :setup_controlmaster do
+  before :generate_otk, :setup_controlmaster do
     invoke 'controlmaster:setup'
   end
 end
