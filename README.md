@@ -8,11 +8,9 @@ This gem provides Capistrano deployment tasks used by Stanford Libraries' Digita
 
 To start, we recommend an SSH configuration like the one described in the [DeveloperPlaybook](https://github.com/sul-dlss/DeveloperPlaybook/blob/main/best-practices/ssh_configuration.md), since it has sensible defaults for Kerberos authentication and multi-factor authentication (using `ProxyJump` and `ControlMaster`, etc.).
 
-To use controlmaster, you need to opt-in by setting the environment variable `USE_CAPISTRANO_CONTROLMASTER=true` (in e.g. your `~/.zshenv` file or similar for your particular shell).
+To get `dlss-capistrano` tasks running via an existing SSH control master socket, you need to opt-in by setting the environment variable `USE_CAPISTRANO_CONTROLMASTER=true` (in e.g. your `~/.zshenv` file or similar for your particular shell).
 
-If you use values other than the defaults for  `CONTROLMASTER_HOST` (`dlss-jump`) or `CONTROLMASTER_SOCKET` (`"~/.ssh/%r@%h:%p"`), you'll want to set these environment variables locally to the values you use (in e.g. your `~/.zshenv` file or similar for your particular shell).  Otherwise, the gem will fail to connect to the appropriate host and/or won't be able to properly check the status of the control master process.
-
-The control master host is the value of the `ProxyJump` directive in your SSH config, and the control master socket is the value of the `ControlPath` directive in your SSH config.
+If your SSH client configuration (`~/.ssh/config`) uses values other than the defaults for `CONTROLMASTER_HOST` (which maps to the `ProxyJump` directive, and defaults to `dlss-jump`) or `CONTROLMASTER_SOCKET` (which maps to the `ControlPath` directive, and defaults to `~/.ssh/%r@%h:%p`), you'll want to set these environment variables locally to the values you use (in e.g. your `~/.zshenv` file or similar for your particular shell). Otherwise, the gem will fail to connect to the appropriate jump host and/or won't be able to properly check the status of the control master process.
 
 ## Included Tasks
 
