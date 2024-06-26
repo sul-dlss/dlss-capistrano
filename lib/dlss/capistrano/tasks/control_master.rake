@@ -10,13 +10,6 @@ namespace :load do
   end
 end
 
-# Integrate hook into Capistrano
-namespace :deploy do
-  before :generate_otk, :setup_controlmaster do
-    invoke 'controlmaster:setup'
-  end
-end
-
 namespace :controlmaster do
   desc 'set up an SSH controlmaster process if missing'
   task :setup do
