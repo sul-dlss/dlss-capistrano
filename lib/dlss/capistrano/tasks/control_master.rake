@@ -17,6 +17,17 @@ namespace :deploy do
   end
 end
 
+namespace :shared_configs do
+  before :check, :setup_connection do
+    invoke 'controlmaster:setup'
+    invoke 'otk:generate'
+  end
+
+  before :update, :setup_connection
+  before :pull, :setup_connection
+  before :symlink, :setup_connection
+end
+
 namespace :controlmaster do
   desc 'set up an SSH controlmaster process if missing'
   task :setup do
