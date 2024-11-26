@@ -81,6 +81,10 @@ These tasks are intended to replace those provided by `capistrano-sidekiq` gem, 
 
 `cap ENV sneakers_systemd:{stop,start,restart}`: stops, starts, restarts Sneakers via systemd.
 
+### SolidQueue via systemd
+
+`cap ENV solid_queue_systemd:{stop,start,restart}`: stops, starts, restarts SolidQueue via systemd.
+
 ### Racecar via systemd
 
 `cap ENV racecar_systemd:{stop,start,restart}`: stops, starts, restarts Racecar via systemd.
