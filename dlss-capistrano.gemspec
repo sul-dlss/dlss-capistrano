@@ -19,7 +19,6 @@ Gem::Specification.new do |s|
   # All dependencies are runtime dependencies, since this gem's "runtime" is
   # the dependent gem's development-time.
   s.add_dependency "capistrano", "~> 3.0"
-  s.add_dependency "capistrano-bundle_audit", ">= 0.3.0"
   s.add_dependency "capistrano-shared_configs"
   s.add_dependency "capistrano-one_time_key", ">= 0.2.0"
   # support for MacOS 14.4+ usage of ed25519 SSH keys
