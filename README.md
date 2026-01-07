@@ -89,6 +89,12 @@ These tasks are intended to replace those provided by `capistrano-sidekiq` gem, 
 
 `cap ENV racecar_systemd:{stop,start,restart}`: stops, starts, restarts Racecar via systemd.
 
+### Ruby install
+This is useful for upgrading to a new version of Ruby and ensuring the bundle is installed, before switching
+the application server to default to the new Ruby version.
+
+`cap ENV "dlss:ruby:install:[ruby-4.0.0]`: installs or updates Ruby via rvm.
+
 #### Capistrano role
 
 The sidekiq_systemd tasks assume a Capistrano role of `:app`. If your application uses a different Capistrano role for hosts that run Sidekiq workers, you can configure this in `config/deploy.rb`, _e.g._:
