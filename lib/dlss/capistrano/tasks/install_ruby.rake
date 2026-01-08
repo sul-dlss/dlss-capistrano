@@ -50,23 +50,16 @@ namespace :dlss do
         info "Setting Ruby #{ruby_version} as current..."
         execute "rvm use #{ruby_version}"
 
-        # Use Capistrano's bundler task for bundle install with fallback
-        info 'Running bundle install using Capistrano bundler task...'
-        begin
-          invoke! 'bundler:install'
-          info "Ruby #{ruby_version} installed successfully and bundle install completed!"
-        rescue NameError => e
-          warn "Bundler task not available (#{e.message}), trying manual bundle install..."
-          # Fallback to manual bundle install in current directory
-          if test("[ -f #{current_path}/Gemfile ]")
-            within current_path do
-              execute 'bundle install'
-              info "Ruby #{ruby_version} installed successfully and bundle install completed!"
-            end
-          else
-            error "Could not find Gemfile in #{current_path}. Please check your deployment configuration."
-            exit 1
+        # We can't use capistraino-bundler task because it starts a new shell where rvm hasn't been used.
+        info 'Running bundle install...'
+        if test("[ -f #{current_path}/Gemfile ]")
+          within current_path do
+            execute :bundle, :install
+            info "Ruby #{ruby_version} installed successfully and bundle install completed!"
           end
+        else
+          error "Could not find Gemfile in #{current_path}. Please check your deployment configuration."
+          exit 1
         end
       end
     end
